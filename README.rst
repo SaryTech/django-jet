@@ -1,42 +1,21 @@
-==========
-Django JET
-==========
+==============
+Django JET 3.0
+==============
 
-.. image:: https://travis-ci.org/geex-arts/django-jet.svg?branch=master
-    :target: https://travis-ci.org/geex-arts/django-jet
+This repo was forked from geex-arts/django-jet. It was updated to add Django 3 compatibility.
+Please ensure you follow all restrictions of the original license.
 
 **Modern template for Django admin interface with improved functionality**
-
-+-----------------------------------------------------------------------------------------------------------------------------------+
-| Attention! **NEW JET**                                                                                                            |
-+===================================================================================================================================+
-| **We are proud to announce completely new Jet. Please check out Live Demo.**                                                      |
-|                                                                                                                                   |
-| Developing of new features for Django Jet will be frozen, only critical bugs will be fixed.                                       |
-+-----------------------------------------------------------------------------------------------------------------------------------+
-| `Live Demo <https://github.com/jet-admin/jet-bridge>`_                                                                            |
-+-----------------------------------------------------------------------------------------------------------------------------------+
 
 
 Django JET has two kinds of licenses: open-source (AGPLv3) and commercial. Please note that using AGPLv3
 code in your programs make them AGPL compatible too. So if you don't want to comply with that we can provide you a commercial
 license (visit Home page). The commercial license is designed for using Django JET in commercial products
 and applications without the provisions of the AGPLv3.
-
-.. image:: https://raw.githubusercontent.com/geex-arts/jet/static/logo.png
-    :width: 500px
-    :height: 500px
-    :scale: 50%
-    :alt: Logo
-    :align: center
     
-* Home page: http://jet.geex-arts.com/
-* **New Jet**: `Live Demo <https://app.jetadmin.io/demo?utm_source=jet&utm_medium=banner&utm_campaign=github&utm_content=link&utm_term=promo>`_
-* Live Demo: http://demo.jet.geex-arts.com/admin/
 * Documentation: http://jet.readthedocs.org/
 * libi.io http://libi.io/library/1683/django-jet
 * PyPI: https://pypi.python.org/pypi/django-jet
-* Support: support@jet.geex-arts.com
 
 Why Django JET?
 ===============
@@ -50,34 +29,21 @@ Why Django JET?
 * Autocompletion
 * Handy controls
 
-Screenshots
-===========
-
-.. image:: https://raw.githubusercontent.com/geex-arts/django-jet/static/screen1_720.png
-    :alt: Screenshot #1
-    :align: center
-    :target: https://raw.githubusercontent.com/geex-arts/django-jet/static/screen1.png
-    
-.. image:: https://raw.githubusercontent.com/geex-arts/django-jet/static/screen2_720.png
-    :alt: Screenshot #2
-    :align: center
-    :target: https://raw.githubusercontent.com/geex-arts/django-jet/static/screen2.png
-    
-.. image:: https://raw.githubusercontent.com/geex-arts/django-jet/static/screen3_720.png
-    :alt: Screenshot #3
-    :align: center
-    :target: https://raw.githubusercontent.com/geex-arts/django-jet/static/screen3.png
-
 Installation
 ============
 
-* Download and install latest version of Django JET:
+* Clone and build Django JET:
+
+.. code:: bash
+
+    git clone https://github.com/IntrospectData/django-jet.git
+    cd django-jet
+    python setup.py sdist bdist
 
 .. code:: python
 
-    pip install django-jet
-    # or
-    easy_install django-jet
+    pip install ./dist/django-jet-3.0.tar.gz
+
 
 * Add 'jet' application to the INSTALLED_APPS setting of your Django project settings.py file (note it should be before 'django.contrib.admin'):
 
@@ -108,17 +74,6 @@ Installation
         },
     ]
 
-.. warning::
-    Before Django 1.8 you should specify context processors different way. Also use ``django.core.context_processors.request`` instead of ``django.template.context_processors.request``.
-
-    .. code:: python
-
-        from django.conf import global_settings
-
-        TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-            'django.core.context_processors.request',
-        )
-
 * Add URL-pattern to the urlpatterns of your Django project urls.py file (they are needed for related–lookups and autocompletes):
 
 .. code:: python
@@ -135,8 +90,6 @@ Installation
 .. code:: python
 
     python manage.py migrate jet
-    # or 
-    python manage.py syncdb
         
 * Collect static if you are in production environment:
 
