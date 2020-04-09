@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.0.0
+-----
+* Django 3+ Compatibile
+* Removed python2 compatibility
+* Converted static refs
+
 1.0.8
 -----
 * PR-345: Django 2.1 compatability fix
@@ -17,7 +23,6 @@ Changelog
 * PR-265: Fixed Django 2 support (thanks to HarryLafranc for PR)
 * PR-219: Added Persian/Farsi translation (thanks to pyzenberg for PR)
 * PR-271: Fix locale names (thanks to leonardoarroyo for PR)
-
 
 1.0.6
 -----
