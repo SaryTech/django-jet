@@ -12,8 +12,11 @@ Code Changes
 - Converted 'admin_static' refs to 'static'
 - Modified this README to reflect new installation process
 
-Django Jet
+
 ===========
+Read Me:
+===========
+
 **Modern template for Django admin interface with improved functionality**
 
 
