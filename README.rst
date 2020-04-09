@@ -2,6 +2,10 @@
    :target: https://codeclimate.com/github/IntrospectData/django-jet-3/maintainability
    :alt: Maintainability
 
+.. image:: https://api.codeclimate.com/v1/badges/564a0f8b9b1b737536bd/test_coverage
+   :target: https://codeclimate.com/github/IntrospectData/django-jet-3/test_coverage
+   :alt: Test Coverage
+
 ==============
 Django JET 3.0
 ==============
