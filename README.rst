@@ -3,7 +3,15 @@ Django JET 3.0
 ==============
 
 This repo was forked from geex-arts/django-jet. It was updated to add Django 3 compatibility.
-Please ensure you follow all restrictions of the original license.
+
+Please ensure you follow all conditions of the original license.
+
+Code Changes
+----------------
+- Removed 'python2_compatibility' decorators and imports
+- Converted 'admin_static' refs to 'static'
+- Modified this README to reflect new installation process
+
 
 **Modern template for Django admin interface with improved functionality**
 
