@@ -1,3 +1,7 @@
+.. image:: https://api.codeclimate.com/v1/badges/564a0f8b9b1b737536bd/maintainability
+   :target: https://codeclimate.com/github/IntrospectData/django-jet-3/maintainability
+   :alt: Maintainability
+
 ==============
 Django JET 3.0
 ==============
