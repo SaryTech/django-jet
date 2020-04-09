@@ -7,15 +7,13 @@ This repo was forked from geex-arts/django-jet. It was updated to add Django 3 c
 Please ensure you follow all conditions of the original license.
 
 Code Changes
-----------------
+=============
 - Removed 'python2_compatibility' decorators and imports
 - Converted 'admin_static' refs to 'static'
 - Modified this README to reflect new installation process
 
-
-========
-Read Me
-========
+README
+------------
 
 **Modern template for Django admin interface with improved functionality**
 
