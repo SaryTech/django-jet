@@ -13,9 +13,9 @@ Code Changes
 - Modified this README to reflect new installation process
 
 
-===========
-Read Me:
-===========
+========
+Read Me
+========
 
 **Modern template for Django admin interface with improved functionality**
 
