@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            pip install coverage
+            pip install coverage django
             mkdir -p coverage
             ./cc-test-reporter before-build
             coverage run ./manage.py test
