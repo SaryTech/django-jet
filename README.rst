@@ -1,3 +1,6 @@
+.. image:: https://circleci.com/gh/IntrospectData/django-jet-3.svg?style=shield
+   :target: https://circleci.com/gh/IntrospectData/django-jet-3
+
 .. image:: https://api.codeclimate.com/v1/badges/564a0f8b9b1b737536bd/maintainability
    :target: https://codeclimate.com/github/IntrospectData/django-jet-3/maintainability
    :alt: Maintainability
@@ -30,7 +33,7 @@ Django JET has two kinds of licenses: open-source (AGPLv3) and commercial. Pleas
 code in your programs make them AGPL compatible too. So if you don't want to comply with that we can provide you a commercial
 license (visit Home page). The commercial license is designed for using Django JET in commercial products
 and applications without the provisions of the AGPLv3.
-    
+
 * Documentation: http://jet.readthedocs.org/
 * libi.io http://libi.io/library/1683/django-jet
 * PyPI: https://pypi.python.org/pypi/django-jet
@@ -72,7 +75,7 @@ Installation
         'jet',
         'django.contrib.admin',
     )
-        
+
 * Make sure ``django.template.context_processors.request`` context processor is enabled in settings.py (Django 1.8+ way):
 
 .. code:: python
@@ -108,13 +111,13 @@ Installation
 .. code:: python
 
     python manage.py migrate jet
-        
+
 * Collect static if you are in production environment:
 
 .. code:: python
 
         python manage.py collectstatic
-        
+
 * Clear your browser cache
 
 Dashboard installation
@@ -166,6 +169,3 @@ Dashboard installation
 .. code:: python
 
         python manage.py collectstatic
-
-
-
