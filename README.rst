@@ -10,6 +10,17 @@
    :alt: Test Coverage
 
 ==============
+Django JET 3.0.2
+==============
+This repo was forked from IntrospectData/django-jet.
+It was updated to remove deprecation notices for future Django versions.
+Code Changes
+=============
+- Changed usages of `ugettext_lazy` to `gettext_lazy`
+- Changed usages of `rangefilter.filter` to `rangefilter.filters`
+- Changed usages of `django.conf.urls.url` to `django.urls.re_path`
+
+==============
 Django JET 3.0
 ==============
 
@@ -57,13 +68,13 @@ Installation
 
 .. code:: bash
 
-    git clone https://github.com/IntrospectData/django-jet.git
+    git clone https://github.com/SaryTech/django-jet.git
     cd django-jet
     python setup.py sdist bdist
 
 .. code:: python
 
-    pip install ./dist/django-jet-3.0.tar.gz
+    pip install ./dist/django-jet-3.0.2.tar.gz
 
 
 * Add 'jet' application to the INSTALLED_APPS setting of your Django project settings.py file (note it should be before 'django.contrib.admin'):
@@ -101,8 +112,8 @@ Installation
 
     urlpatterns = patterns(
         '',
-        url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
-        url(r'^admin/', include(admin.site.urls)),
+        re_path(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+        re_path(r'^admin/', include(admin.site.urls)),
         ...
     )
 
@@ -144,9 +155,9 @@ Dashboard installation
 
     urlpatterns = patterns(
         '',
-        url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
-        url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
-        url(r'^admin/', include(admin.site.urls)),
+        re_path(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+        re_path(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+        re_path(r'^admin/', include(admin.site.urls)),
         ...
     )
 

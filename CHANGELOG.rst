@@ -1,9 +1,13 @@
 Changelog
 =========
+3.0.2
+-----
+* Updated required version of django-admin-rangefilter >= 0.8.0
+* solved deprecation notices for django
 
 3.0.0
 -----
-* Django 3+ Compatibile
+* Django 3+ Compatible
 * Removed python2 compatibility
 * Converted static refs
 
