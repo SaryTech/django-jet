@@ -1,5 +1,9 @@
 Changelog
 =========
+3.0.5
+-----
+* fix bug in loading jsi18n
+
 3.0.4
 -----
 * Revert the changes made in 3.0.3
