@@ -1,5 +1,13 @@
 Changelog
 =========
+3.0.4
+-----
+* Revert the changes made in 3.0.3
+
+3.0.3
+-----
+* Django 3.2 Compatible
+
 3.0.2
 -----
 * Updated required version of django-admin-rangefilter >= 0.8.0
