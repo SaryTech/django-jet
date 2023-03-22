@@ -20,10 +20,6 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.utils.encoding import force_str
 
-try:
-    from django.utils.encoding import force_unicode
-except ImportError:
-    from django.utils.encoding import force_str as force_unicode
 
 try:
     from django.forms.utils import flatatt
@@ -160,7 +156,7 @@ class CredentialWidget(Widget):
             'type': 'hidden',
             'name': 'credential',
         })
-        attrs['value'] = force_unicode(value) if value else ''
+        attrs['value'] = force_str(value) if value else ''
 
         return format_html('%s<input{} />' % link, flatatt(attrs))
 
