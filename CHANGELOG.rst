@@ -1,5 +1,9 @@
 Changelog
 =========
+3.0.7
+-----
+* Django 4.1.7 Compatible
+
 3.0.6
 -----
 * Django 4.1.7 Compatible
