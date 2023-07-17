@@ -3,6 +3,7 @@ Changelog
 unreleased
 -----
 * Format the code using black
+* Apply pre-commit hooks
 
 3.0.8
 -----
