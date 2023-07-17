@@ -6,19 +6,10 @@ from jet import settings
 from jet.models import PinnedApplication
 import django
 
-try:
-    from django.apps.registry import apps
-except ImportError:
-    try:
-        from django.apps import apps # Fix Django 1.7 import issue
-    except ImportError:
-        pass
+from django.apps import apps
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
-try:
-    from django.core.urlresolvers import reverse, resolve, NoReverseMatch
-except ImportError: # Django 1.11
-    from django.urls import reverse, resolve, NoReverseMatch
+from django.urls import reverse, resolve, NoReverseMatch
 
 from django.contrib.admin import AdminSite
 from django.utils.encoding import smart_str
@@ -65,12 +56,8 @@ def get_app_list(context, order=True):
     app_dict = {}
     for model, model_admin in admin_site._registry.items():
         app_label = model._meta.app_label
-        try:
-            has_module_perms = model_admin.has_module_permission(request)
-        except AttributeError:
-            has_module_perms = request.user.has_module_perms(app_label) # Fix Django < 1.8 issue
 
-        if has_module_perms:
+        if model_admin.has_module_permission(request):
             perms = model_admin.get_model_perms(request)
 
             # Check whether user has any perm for this module.
@@ -108,7 +95,7 @@ def get_app_list(context, order=True):
                             kwargs={'app_label': app_label},
                             current_app=admin_site.name,
                         ),
-                        'has_module_perms': has_module_perms,
+                        'has_module_perms': True,
                         'models': [model_dict],
                     }
 
@@ -213,6 +200,7 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
         if hasattr(model_admin, 'get_search_fields') else model_admin.search_fields
     list_select_related = model_admin.get_list_select_related(request) \
         if hasattr(model_admin, 'get_list_select_related') else model_admin.list_select_related
+    sortable_by = model_admin.get_sortable_by(request)
 
     actions = model_admin.get_actions(request)
     if actions:
@@ -224,18 +212,11 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
         request, model, list_display, list_display_links, list_filter,
         model_admin.date_hierarchy, search_fields, list_select_related,
         model_admin.list_per_page, model_admin.list_max_show_all,
-        model_admin.list_editable, model_admin]
+        model_admin.list_editable, model_admin, sortable_by]
 
     if django.VERSION[0] >= 4:
         search_help_text = model_admin.search_help_text
         change_list_args.append(search_help_text)
-
-    try:
-        sortable_by = model_admin.get_sortable_by(request)
-        change_list_args.append(sortable_by)
-    except AttributeError:
-        # django version < 2.1
-        pass
 
     try:
         cl = ChangeList(*change_list_args)

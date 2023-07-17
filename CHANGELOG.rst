@@ -1,8 +1,12 @@
 Changelog
 =========
+unreleased
+-----
+* Drop support for django < 3.2
+
 3.0.8
 -----
-* only add search_help_text in django >= 4.0
+* Only add search_help_text in django >= 4.0
 
 3.0.7
 -----
