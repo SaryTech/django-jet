@@ -4,6 +4,7 @@ from django.template import Context
 from django.utils import translation
 from jet import settings
 from jet.models import PinnedApplication
+import django
 
 try:
     from django.apps.registry import apps
@@ -219,12 +220,15 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
 
     ChangeList = model_admin.get_changelist(request)
 
-    search_help_text = model_admin.search_help_text
     change_list_args = [
         request, model, list_display, list_display_links, list_filter,
         model_admin.date_hierarchy, search_fields, list_select_related,
         model_admin.list_per_page, model_admin.list_max_show_all,
-        model_admin.list_editable, model_admin, search_help_text]
+        model_admin.list_editable, model_admin]
+
+    if django.VERSION[0] >= 4:
+        search_help_text = model_admin.search_help_text
+        change_list_args.append(search_help_text)
 
     try:
         sortable_by = model_admin.get_sortable_by(request)

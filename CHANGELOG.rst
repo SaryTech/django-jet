@@ -1,5 +1,9 @@
 Changelog
 =========
+3.0.8
+-----
+* only add search_help_text in django >= 4.0
+
 3.0.7
 -----
 * Django 4.1.7 Compatible
