@@ -13,10 +13,10 @@ class UpdateDashboardModulesForm(forms.Form):
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(UpdateDashboardModulesForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self):
-        data = super(UpdateDashboardModulesForm, self).clean()
+        data = super().clean()
 
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
             raise ValidationError("error")
@@ -56,7 +56,7 @@ class AddUserDashboardModuleForm(forms.ModelForm):
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(AddUserDashboardModuleForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = UserDashboardModule
@@ -67,7 +67,7 @@ class AddUserDashboardModuleForm(forms.ModelForm):
         return data if data != "" else None
 
     def clean(self):
-        data = super(AddUserDashboardModuleForm, self).clean()
+        data = super().clean()
 
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
             raise ValidationError("error")
@@ -96,20 +96,20 @@ class AddUserDashboardModuleForm(forms.ModelForm):
         self.instance.settings = self.module_cls.dump_settings()
         self.instance.children = self.module_cls.dump_children()
 
-        return super(AddUserDashboardModuleForm, self).save(commit)
+        return super().save(commit)
 
 
 class UpdateDashboardModuleCollapseForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(UpdateDashboardModuleCollapseForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = UserDashboardModule
         fields = ["collapsed"]
 
     def clean(self):
-        data = super(UpdateDashboardModuleCollapseForm, self).clean()
+        data = super().clean()
 
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
             raise ValidationError("error")
@@ -123,14 +123,14 @@ class UpdateDashboardModuleCollapseForm(forms.ModelForm):
 class RemoveDashboardModuleForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(RemoveDashboardModuleForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = UserDashboardModule
         fields = []
 
     def clean(self):
-        cleaned_data = super(RemoveDashboardModuleForm, self).clean()
+        cleaned_data = super().clean()
 
         if not user_is_authenticated(self.request.user) or self.instance.user != self.request.user.pk:
             raise ValidationError("error")
@@ -147,14 +147,14 @@ class ResetDashboardForm(forms.Form):
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(ResetDashboardForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = UserDashboardModule
         fields = []
 
     def clean(self):
-        data = super(ResetDashboardForm, self).clean()
+        data = super().clean()
         data["app_label"] = data["app_label"] if data["app_label"] else None
 
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:

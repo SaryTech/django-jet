@@ -11,22 +11,6 @@ def read(fname):
     return file.read()
 
 
-def get_install_requires():
-    install_requires = ["Django"]
-
-    try:
-        import importlib
-    except ImportError:
-        install_requires.append("importlib")
-
-    try:
-        from collections import OrderedDict
-    except ImportError:
-        install_requires.append("ordereddict")
-
-    return install_requires
-
-
 setup(
     name="django-jet",
     version=__import__("jet").VERSION,
@@ -46,14 +30,15 @@ setup(
         "Intended Audience :: System Administrators",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.2",
-        "Programming Language :: Python :: 3.3",
-        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Environment :: Web Environment",
         "Topic :: Software Development",
         "Topic :: Software Development :: User Interfaces",
     ],
     zip_safe=False,
     include_package_data=True,
-    install_requires=get_install_requires(),
+    install_requires=["Django"],
 )

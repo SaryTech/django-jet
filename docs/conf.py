@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Django JET documentation build configuration file, created by
 # sphinx-quickstart on Sun Aug 30 14:01:43 2015.

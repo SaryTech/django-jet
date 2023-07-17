@@ -18,7 +18,7 @@ except ImportError:
     from django.core.context_processors import csrf
 
 
-class Dashboard(object):
+class Dashboard:
     """
     Base dashboard class. All custom dashboards should inherit it.
     """
@@ -281,7 +281,7 @@ class DefaultAppIndexDashboard(AppIndexDashboard):
         self.children.append(modules.RecentActions(include_list=self.get_app_content_types(), column=1, order=0))
 
 
-class DashboardUrls(object):
+class DashboardUrls:
     _urls = []
 
     def get_urls(self):

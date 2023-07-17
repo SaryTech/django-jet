@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 import json
 import os
 from django import template
@@ -144,9 +143,9 @@ def jet_get_current_version():
 @register.filter
 def jet_append_version(url):
     if "?" in url:
-        return "%s&v=%s" % (url, VERSION)
+        return f"{url}&v={VERSION}"
     else:
-        return "%s?v=%s" % (url, VERSION)
+        return f"{url}?v={VERSION}"
 
 
 @assignment_tag
@@ -194,7 +193,8 @@ def jet_sibling_object(context, next):
         return
 
     url = reverse(
-        "%s:%s_%s_change" % (admin_site.name, model._meta.app_label, model._meta.model_name), args=(sibling_object.pk,)
+        f"{admin_site.name}:{model._meta.app_label}_{model._meta.model_name}_change",
+        args=(sibling_object.pk,),
     )
 
     if preserved_filters_plain != "":

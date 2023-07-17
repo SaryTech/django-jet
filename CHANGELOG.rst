@@ -4,6 +4,7 @@ unreleased
 -----
 * Format the code using black
 * Apply pre-commit hooks
+* Drop support for Python < 3.8
 
 3.0.8
 -----

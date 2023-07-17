@@ -21,14 +21,14 @@ except ImportError:
 class AddBookmarkForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(AddBookmarkForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = Bookmark
         fields = ["url", "title"]
 
     def clean(self):
-        data = super(AddBookmarkForm, self).clean()
+        data = super().clean()
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
             raise ValidationError("error")
         if not self.request.user.has_perm("jet.change_bookmark"):
@@ -37,20 +37,20 @@ class AddBookmarkForm(forms.ModelForm):
 
     def save(self, commit=True):
         self.instance.user = self.request.user.pk
-        return super(AddBookmarkForm, self).save(commit)
+        return super().save(commit)
 
 
 class RemoveBookmarkForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(RemoveBookmarkForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = Bookmark
         fields = []
 
     def clean(self):
-        data = super(RemoveBookmarkForm, self).clean()
+        data = super().clean()
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
             raise ValidationError("error")
         if self.instance.user != self.request.user.pk:
@@ -65,14 +65,14 @@ class RemoveBookmarkForm(forms.ModelForm):
 class ToggleApplicationPinForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(ToggleApplicationPinForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = PinnedApplication
         fields = ["app_label"]
 
     def clean(self):
-        data = super(ToggleApplicationPinForm, self).clean()
+        data = super().clean()
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
             raise ValidationError("error")
         return data
@@ -101,10 +101,10 @@ class ModelLookupForm(forms.Form):
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(ModelLookupForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self):
-        data = super(ModelLookupForm, self).clean()
+        data = super().clean()
 
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
             raise ValidationError("error")

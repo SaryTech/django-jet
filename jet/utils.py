@@ -1,10 +1,13 @@
 import datetime
 import json
+
 from django.template import Context
 from django.utils import translation
+import django
+
 from jet import settings
 from jet.models import PinnedApplication
-import django
+
 
 try:
     from django.apps.registry import apps
@@ -32,10 +35,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict  # Python 2.6
+from collections import OrderedDict
 
 
 class JsonResponse(HttpResponse):
@@ -55,7 +55,7 @@ class JsonResponse(HttpResponse):
             raise TypeError("In order to allow non-dict objects to be " "serialized set the safe parameter to False")
         kwargs.setdefault("content_type", "application/json")
         data = json.dumps(data, cls=encoder)
-        super(JsonResponse, self).__init__(content=data, **kwargs)
+        super().__init__(content=data, **kwargs)
 
 
 def get_app_list(context, order=True):
@@ -161,7 +161,7 @@ def get_model_instance_label(instance):
     return smart_str(instance)
 
 
-class SuccessMessageMixin(object):
+class SuccessMessageMixin:
     """
     Adds a success message on successful form submission.
     """
@@ -169,7 +169,7 @@ class SuccessMessageMixin(object):
     success_message = ""
 
     def form_valid(self, form):
-        response = super(SuccessMessageMixin, self).form_valid(form)
+        response = super().form_valid(form)
         success_message = self.get_success_message(form.cleaned_data)
         if success_message:
             messages.success(self.request, success_message)
@@ -186,9 +186,7 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
         return
 
     try:
-        changelist_url = reverse(
-            "%s:%s_%s_changelist" % (admin_site.name, model._meta.app_label, model._meta.model_name)
-        )
+        changelist_url = reverse(f"{admin_site.name}:{model._meta.app_label}_{model._meta.model_name}_changelist")
     except NoReverseMatch:
         return
 
@@ -269,7 +267,7 @@ def get_possible_language_codes():
     # making dialect part uppercase
     split = language_code.split("-", 2)
     if len(split) == 2:
-        language_code = "%s-%s" % (split[0].lower(), split[1].upper()) if split[0] != split[1] else split[0]
+        language_code = f"{split[0].lower()}-{split[1].upper()}" if split[0] != split[1] else split[0]
 
     language_codes.append(language_code)
 

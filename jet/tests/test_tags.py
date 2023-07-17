@@ -69,7 +69,7 @@ class TagsTestCase(TestCase):
 
         expected_url = (
             reverse(
-                "admin:%s_%s_change" % (TestModel._meta.app_label, TestModel._meta.model_name),
+                f"admin:{TestModel._meta.app_label}_{TestModel._meta.model_name}_change",
                 args=(self.models[1].pk,),
             )
             + "?"
@@ -93,7 +93,7 @@ class TagsTestCase(TestCase):
 
         changelist_url = (
             reverse(
-                "admin:%s_%s_change" % (TestModel._meta.app_label, TestModel._meta.model_name),
+                f"admin:{TestModel._meta.app_label}_{TestModel._meta.model_name}_change",
                 args=(self.models[1].pk,),
             )
             + "?"
