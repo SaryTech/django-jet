@@ -24,6 +24,10 @@ setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Framework :: Django",
+        "Framework :: Django :: 3.2",
+        "Framework :: Django :: 4.0",
+        "Framework :: Django :: 4.1",
+        "Framework :: Django :: 4.2",
         "License :: Free for non-commercial use",
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Intended Audience :: Developers",

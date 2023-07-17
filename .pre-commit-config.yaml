@@ -22,3 +22,9 @@ repos:
     rev: 23.7.0
     hooks:
       - id: black
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: "1.14.0"  # replace with latest tag on GitHub
+    hooks:
+    -   id: django-upgrade
+        args: [--target-version, "3.2"]   # Replace with Django version

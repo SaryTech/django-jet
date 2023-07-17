@@ -9,20 +9,12 @@ from jet import settings
 from jet.models import PinnedApplication
 
 
-try:
-    from django.apps.registry import apps
-except ImportError:
-    try:
-        from django.apps import apps  # Fix Django 1.7 import issue
-    except ImportError:
-        pass
+from django.apps.registry import apps
+
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
 
-try:
-    from django.core.urlresolvers import reverse, resolve, NoReverseMatch
-except ImportError:  # Django 1.11
-    from django.urls import reverse, resolve, NoReverseMatch
+from django.urls import reverse, resolve, NoReverseMatch
 
 from django.contrib.admin import AdminSite
 from django.utils.encoding import smart_str
@@ -223,6 +215,7 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
 
     ChangeList = model_admin.get_changelist(request)
 
+    sortable_by = model_admin.get_sortable_by(request)
     change_list_args = [
         request,
         model,
@@ -236,18 +229,12 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
         model_admin.list_max_show_all,
         model_admin.list_editable,
         model_admin,
+        sortable_by,
     ]
 
     if django.VERSION[0] >= 4:
         search_help_text = model_admin.search_help_text
         change_list_args.append(search_help_text)
-
-    try:
-        sortable_by = model_admin.get_sortable_by(request)
-        change_list_args.append(sortable_by)
-    except AttributeError:
-        # django version < 2.1
-        pass
 
     try:
         cl = ChangeList(*change_list_args)
