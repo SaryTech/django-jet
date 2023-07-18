@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
-
+from django.test import Client
+from django.test import TestCase
 from django.urls import reverse
 
-from django.test import TestCase, Client
 from jet.dashboard.dashboard import Dashboard
-from jet.dashboard.modules import LinkList, RecentActions
 from jet.dashboard.models import UserDashboardModule
+from jet.dashboard.modules import LinkList
+from jet.dashboard.modules import RecentActions
 from jet.tests.dashboard import TestIndexDashboard
 
 

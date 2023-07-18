@@ -1,15 +1,13 @@
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
 
 
 def read(fname):
     path = os.path.join(os.path.dirname(__file__), fname)
-    try:
-        file = open(path, encoding="utf-8")
-    except TypeError:
-        file = open(path)
-    return file.read()
-
+    with open(path) as file:
+        return file.read()
 
 setup(
     name="django-jet",

@@ -1,14 +1,13 @@
-from django.urls import path
 from django.contrib import messages
-
-from django.urls import reverse
-
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.urls import path
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
+from jet.dashboard import dashboard
 from jet.dashboard.dashboard_modules.yandex_metrika import YandexMetrikaClient
 from jet.dashboard.models import UserDashboardModule
-from jet.dashboard import dashboard
-from django.utils.translation import gettext_lazy as _
 
 
 def yandex_metrika_grant_view(request, pk):

@@ -1,10 +1,12 @@
 from django.contrib import admin
-from django.test import TestCase, RequestFactory
-from django.utils.encoding import smart_str
-from jet.filters import RelatedFieldAjaxListFilter
-from jet.tests.models import RelatedToTestModel, TestModel
-
 from django.contrib.admin.utils import get_fields_from_path
+from django.test import RequestFactory
+from django.test import TestCase
+from django.utils.encoding import smart_str
+
+from jet.filters import RelatedFieldAjaxListFilter
+from jet.tests.models import RelatedToTestModel
+from jet.tests.models import TestModel
 
 
 class FiltersTestCase(TestCase):

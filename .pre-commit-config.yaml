@@ -23,6 +23,13 @@ repos:
     hooks:
       - id: black
 
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.278
+    hooks:
+      - id: ruff
+        args:
+          - --fix
+
   - repo: https://github.com/adamchainz/django-upgrade
     rev: "1.14.0"  # replace with latest tag on GitHub
     hooks:

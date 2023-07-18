@@ -1,27 +1,31 @@
 import datetime
 import json
+
 from django import forms
-
-from django.urls import reverse
-
+from django.conf import settings
 from django.forms import Widget
+from django.urls import reverse
 from django.utils import formats
+from django.utils.encoding import force_str
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.text import capfirst
-from jet.dashboard.modules import DashboardModule
 from django.utils.translation import gettext_lazy as _
-from django.conf import settings
-from django.utils.encoding import force_str
+
+from jet.dashboard.modules import DashboardModule
+
 
 try:
     from urllib import request
+    from urllib.error import HTTPError
+    from urllib.error import URLError
     from urllib.parse import urlencode
-    from urllib.error import URLError, HTTPError
 except ImportError:
-    import urllib2 as request
-    from urllib2 import URLError, HTTPError
     from urllib import urlencode
+
+    import urllib2 as request
+    from urllib2 import HTTPError
+    from urllib2 import URLError
 
 JET_MODULE_YANDEX_METRIKA_CLIENT_ID = getattr(settings, "JET_MODULE_YANDEX_METRIKA_CLIENT_ID", "")
 JET_MODULE_YANDEX_METRIKA_CLIENT_SECRET = getattr(settings, "JET_MODULE_YANDEX_METRIKA_CLIENT_SECRET", "")
@@ -232,7 +236,9 @@ class YandexMetrikaBase(DashboardModule):
         if self.access_token is None:
             self.error = mark_safe(
                 _(
-                    'Please <a href="%s">attach Yandex account and choose Yandex Metrika counter</a> to start using widget'
+                    "Please "
+                    '<a href="%s">attach Yandex account and choose Yandex Metrika counter</a> '
+                    "to start using widget"
                 )
                 % reverse("jet-dashboard:update_module", kwargs={"pk": self.model.pk})
             )

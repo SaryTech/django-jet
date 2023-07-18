@@ -1,15 +1,15 @@
 from importlib import import_module
 
-from django.urls import reverse
-
+from django.template.context_processors import csrf
 from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
 from jet.dashboard import modules
 from jet.dashboard.models import UserDashboardModule
-from django.utils.translation import gettext_lazy as _
 from jet.ordered_set import OrderedSet
-from jet.utils import get_admin_site_name, context_to_dict
-
-from django.template.context_processors import csrf
+from jet.utils import context_to_dict
+from jet.utils import get_admin_site_name
 
 
 class Dashboard:

@@ -1,21 +1,24 @@
 import datetime
 import json
+
+import httplib2
 from django import forms
-
-from django.urls import reverse
-
+from django.conf import settings
 from django.forms import Widget
+from django.urls import reverse
 from django.utils import formats
+from django.utils.encoding import force_str
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.text import capfirst
-from googleapiclient.discovery import build
-import httplib2
-from jet.dashboard.modules import DashboardModule
-from oauth2client.client import flow_from_clientsecrets, OAuth2Credentials, AccessTokenRefreshError, Storage
 from django.utils.translation import gettext_lazy as _
-from django.conf import settings
-from django.utils.encoding import force_str
+from googleapiclient.discovery import build
+from oauth2client.client import AccessTokenRefreshError
+from oauth2client.client import OAuth2Credentials
+from oauth2client.client import Storage
+from oauth2client.client import flow_from_clientsecrets
+
+from jet.dashboard.modules import DashboardModule
 
 
 try:
@@ -285,7 +288,9 @@ class GoogleAnalyticsBase(DashboardModule):
         if self.credential is None:
             self.error = mark_safe(
                 _(
-                    'Please <a href="%s">attach Google account and choose Google Analytics counter</a> to start using widget'
+                    "Please "
+                    '<a href="%s">attach Google account and choose Google Analytics counter</a> '
+                    "to start using widget"
                 )
                 % reverse("jet-dashboard:update_module", kwargs={"pk": self.model.pk})
             )

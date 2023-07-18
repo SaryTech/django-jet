@@ -1,9 +1,16 @@
-from datetime import datetime, date
 import json
+from datetime import date
+from datetime import datetime
+
 from django.contrib.admin import AdminSite
 from django.test import TestCase
+
 from jet.tests.models import TestModel
-from jet.utils import JsonResponse, get_model_instance_label, get_app_list, get_admin_site, LazyDateTimeEncoder
+from jet.utils import JsonResponse
+from jet.utils import LazyDateTimeEncoder
+from jet.utils import get_admin_site
+from jet.utils import get_app_list
+from jet.utils import get_model_instance_label
 
 
 class UtilsTestCase(TestCase):

@@ -1,12 +1,13 @@
 import json
-from django.contrib.auth.models import User
 
+from django.contrib.auth.models import User
+from django.test import Client
+from django.test import TestCase
 from django.urls import reverse
 
-from django.test import TestCase, Client
+from jet.dashboard.models import UserDashboardModule
 from jet.dashboard.modules import LinkList
 from jet.models import Bookmark
-from jet.dashboard.models import UserDashboardModule
 
 
 class ViewsTestCase(TestCase):

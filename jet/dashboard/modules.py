@@ -1,11 +1,15 @@
+import datetime
 import json
+
 from django import forms
 from django.contrib.admin.models import LogEntry
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
-from jet.utils import get_app_list, LazyDateTimeEncoder, context_to_dict
-import datetime
+
+from jet.utils import LazyDateTimeEncoder
+from jet.utils import context_to_dict
+from jet.utils import get_app_list
 
 
 class DashboardModule:
@@ -494,7 +498,7 @@ class RecentActions(DashboardModule):
                         current_qset = Q(content_type__app_label=app_label)
                     else:
                         current_qset = Q(content_type__app_label=app_label, content_type__model=model)
-                except:
+                except:  # noqa E722
                     raise ValueError('Invalid contenttype: "%s"' % contenttype)
 
                 if qset is None:
@@ -586,7 +590,7 @@ class Feed(DashboardModule):
                 for entry in entries:
                     try:
                         entry.date = datetime.date(*entry.published_parsed[0:3])
-                    except:
+                    except:  # noqa E722
                         pass
 
                     self.children.append(entry)

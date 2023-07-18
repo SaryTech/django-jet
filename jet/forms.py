@@ -1,14 +1,17 @@
-import json
+import operator
+from functools import reduce
+
 from django import forms
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-import operator
 
-from jet.models import Bookmark, PinnedApplication
-from jet.utils import get_model_instance_label, user_is_authenticated
-from functools import reduce
+from jet.models import Bookmark
+from jet.models import PinnedApplication
+from jet.utils import get_model_instance_label
+from jet.utils import user_is_authenticated
+
 
 try:
     from django.apps import apps
@@ -111,7 +114,7 @@ class ModelLookupForm(forms.Form):
 
         try:
             self.model_cls = get_model(data["app_label"], data["model"])
-        except:
+        except:  # noqa E722
             raise ValidationError("error")
 
         content_type = ContentType.objects.get_for_model(self.model_cls)

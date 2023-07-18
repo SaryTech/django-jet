@@ -1,24 +1,27 @@
 import json
 import os
+from urllib.parse import parse_qsl
+
 from django import template
-
-from django.urls import reverse
-
-from django.forms import CheckboxInput, ModelChoiceField, Select, ModelMultipleChoiceField, SelectMultiple
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
+from django.forms import CheckboxInput
+from django.forms import ModelChoiceField
+from django.forms import ModelMultipleChoiceField
+from django.forms import Select
+from django.forms import SelectMultiple
+from django.urls import reverse
+from django.utils.encoding import smart_str
 from django.utils.formats import get_format
 from django.utils.safestring import mark_safe
-from django.utils.encoding import smart_str
-from jet import settings, VERSION
+
+from jet import VERSION
+from jet import settings
 from jet.models import Bookmark
-from jet.utils import (
-    get_model_instance_label,
-    get_model_queryset,
-    get_possible_language_codes,
-    get_admin_site,
-    get_menu_items,
-)
-from urllib.parse import parse_qsl
+from jet.utils import get_admin_site
+from jet.utils import get_menu_items
+from jet.utils import get_model_instance_label
+from jet.utils import get_model_queryset
+from jet.utils import get_possible_language_codes
 
 
 register = template.Library()

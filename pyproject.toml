@@ -1,2 +1,17 @@
 [tool.black]
 line-length = 120
+
+[tool.ruff]
+extend-select = ["I", "ISC"]
+line-length = 120
+target-version = "py38"
+fixable = ["I001"]
+
+[tool.ruff.flake8-unused-arguments]
+ignore-variadic-names = true
+
+[tool.ruff.isort]
+combine-as-imports = true
+lines-after-imports = 2
+force-single-line = true
+split-on-trailing-comma = true

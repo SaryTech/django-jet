@@ -11,9 +11,11 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
 import os
-import shlex
+import sys
+
+import django
+
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -23,7 +25,7 @@ sys.path.insert(0, os.path.abspath(".."))
 # Autodoc may need to import some models modules which require django settings
 # be configured
 os.environ["DJANGO_SETTINGS_MODULE"] = "jet.tests.settings"
-import django
+
 
 django.setup()
 

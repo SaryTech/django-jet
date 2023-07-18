@@ -1,33 +1,29 @@
 import datetime
 import json
+from collections import OrderedDict
 
-from django.template import Context
-from django.utils import translation
 import django
+from django.apps.registry import apps
+from django.contrib import admin
+from django.contrib import messages
+from django.contrib.admin import AdminSite
+from django.contrib.admin.options import IncorrectLookupParameters
+from django.core.serializers.json import DjangoJSONEncoder
+from django.http import HttpResponse
+from django.template import Context
+from django.urls import NoReverseMatch
+from django.urls import resolve
+from django.urls import reverse
+from django.utils import translation
+from django.utils.encoding import force_str
+from django.utils.encoding import smart_str
+from django.utils.functional import Promise
+from django.utils.text import capfirst
+from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from jet import settings
 from jet.models import PinnedApplication
-
-
-from django.apps.registry import apps
-
-from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponse
-
-from django.urls import reverse, resolve, NoReverseMatch
-
-from django.contrib.admin import AdminSite
-from django.utils.encoding import smart_str
-from django.utils.text import capfirst
-from django.contrib import messages
-from django.utils.encoding import force_str
-from django.utils.functional import Promise
-from django.contrib.admin.options import IncorrectLookupParameters
-from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
-from django.utils.text import slugify
-
-from collections import OrderedDict
 
 
 class JsonResponse(HttpResponse):
@@ -44,7 +40,7 @@ class JsonResponse(HttpResponse):
 
     def __init__(self, data, encoder=DjangoJSONEncoder, safe=True, **kwargs):
         if safe and not isinstance(data, dict):
-            raise TypeError("In order to allow non-dict objects to be " "serialized set the safe parameter to False")
+            raise TypeError("In order to allow non-dict objects to be serialized set the safe parameter to False")
         kwargs.setdefault("content_type", "application/json")
         data = json.dumps(data, cls=encoder)
         super().__init__(content=data, **kwargs)
@@ -128,7 +124,7 @@ def get_admin_site(context):
         for func_closure in index_resolver.func.__closure__:
             if isinstance(func_closure.cell_contents, AdminSite):
                 return func_closure.cell_contents
-    except:
+    except:  # noqa E722
         pass
 
     return admin.site
