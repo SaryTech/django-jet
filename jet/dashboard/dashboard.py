@@ -11,7 +11,7 @@ from jet.utils import get_admin_site_name, context_to_dict
 from django.template.context_processors import csrf
 
 
-class Dashboard(object):
+class Dashboard:
     """
     Base dashboard class. All custom dashboards should inherit it.
     """
@@ -296,7 +296,7 @@ class DefaultAppIndexDashboard(AppIndexDashboard):
         ))
 
 
-class DashboardUrls(object):
+class DashboardUrls:
     _urls = []
 
     def get_urls(self):

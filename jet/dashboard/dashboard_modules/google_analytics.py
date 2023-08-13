@@ -1,4 +1,3 @@
-# encoding: utf-8
 import datetime
 import json
 from django import forms
@@ -29,7 +28,7 @@ JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = getattr(
 
 class ModuleCredentialStorage(Storage):
     def __init__(self, module):
-        super(ModuleCredentialStorage, self).__init__()
+        super().__init__()
         self.module = module
 
     def locked_get(self):
@@ -136,12 +135,12 @@ class CredentialWidget(Widget):
 
     def render(self, name, value, attrs=None):
         if value and len(value) > 0:
-            link = '<a href="%s">%s</a>' % (
+            link = '<a href="{}">{}</a>'.format(
                 reverse('jet-dashboard:google-analytics-revoke', kwargs={'pk': self.module.model.pk}),
                 force_str(_('Revoke access'))
             )
         else:
-            link = '<a href="%s">%s</a>' % (
+            link = '<a href="{}">{}</a>'.format(
                 reverse('jet-dashboard:google-analytics-grant', kwargs={'pk': self.module.model.pk}),
                 force_str(_('Grant access'))
             )
@@ -213,7 +212,7 @@ class GoogleAnalyticsBase(DashboardModule):
 
     def __init__(self, title=None, period=None, **kwargs):
         kwargs.update({'period': period})
-        super(GoogleAnalyticsBase, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def settings_dict(self):
         return {
@@ -245,7 +244,7 @@ class GoogleAnalyticsBase(DashboardModule):
     def get_grouped_date(self, data, group):
         if group == 'week':
             date = datetime.datetime.strptime(
-                '%s-%s-%s' % (data['ga_year'], data['ga_week'], '0'),
+                '{}-{}-{}'.format(data['ga_year'], data['ga_week'], '0'),
                 '%Y-%W-%w'
             )
         elif group == 'month':
@@ -258,7 +257,7 @@ class GoogleAnalyticsBase(DashboardModule):
         date = self.get_grouped_date(data, group)
 
         if group == 'week':
-            date = u'%s — %s' % (
+            date = '{} — {}'.format(
                 (date - datetime.timedelta(days=6)).strftime('%d.%m'),
                 date.strftime('%d.%m')
             )
@@ -312,7 +311,7 @@ class GoogleAnalyticsVisitorsTotals(GoogleAnalyticsBase):
 
     def __init__(self, title=None, period=None, **kwargs):
         kwargs.update({'period': period})
-        super(GoogleAnalyticsVisitorsTotals, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def init_with_context(self, context):
         result = self.api_ga()
@@ -352,16 +351,16 @@ class GoogleAnalyticsVisitorsChart(GoogleAnalyticsBase):
 
     def __init__(self, title=None, period=None, show=None, group=None, **kwargs):
         kwargs.update({'period': period, 'show': show, 'group': group})
-        super(GoogleAnalyticsVisitorsChart, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def settings_dict(self):
-        settings = super(GoogleAnalyticsVisitorsChart, self).settings_dict()
+        settings = super().settings_dict()
         settings['show'] = self.show
         settings['group'] = self.group
         return settings
 
     def load_settings(self, settings):
-        super(GoogleAnalyticsVisitorsChart, self).load_settings(settings)
+        super().load_settings(settings)
         self.show = settings.get('show')
         self.group = settings.get('group')
 
@@ -404,15 +403,15 @@ class GoogleAnalyticsPeriodVisitors(GoogleAnalyticsBase):
 
     def __init__(self, title=None, period=None, group=None, **kwargs):
         kwargs.update({'period': period, 'group': group})
-        super(GoogleAnalyticsPeriodVisitors, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def settings_dict(self):
-        settings = super(GoogleAnalyticsPeriodVisitors, self).settings_dict()
+        settings = super().settings_dict()
         settings['group'] = self.group
         return settings
 
     def load_settings(self, settings):
-        super(GoogleAnalyticsPeriodVisitors, self).load_settings(settings)
+        super().load_settings(settings)
         self.group = settings.get('group')
 
     def init_with_context(self, context):

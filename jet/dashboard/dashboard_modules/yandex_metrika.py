@@ -1,4 +1,3 @@
-# encoding: utf-8
 import datetime
 import json
 from django import forms
@@ -13,15 +12,9 @@ from jet.dashboard.modules import DashboardModule
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.utils.encoding import force_str
-
-try:
-    from urllib import request
-    from urllib.parse import urlencode
-    from urllib.error import URLError, HTTPError
-except ImportError:
-    import urllib2 as request
-    from urllib2 import URLError, HTTPError
-    from urllib import urlencode
+from urllib import request
+from urllib.parse import urlencode
+from urllib.error import URLError, HTTPError
 
 JET_MODULE_YANDEX_METRIKA_CLIENT_ID = getattr(settings, 'JET_MODULE_YANDEX_METRIKA_CLIENT_ID', '')
 JET_MODULE_YANDEX_METRIKA_CLIENT_SECRET = getattr(settings, 'JET_MODULE_YANDEX_METRIKA_CLIENT_SECRET', '')
@@ -37,7 +30,7 @@ class YandexMetrikaClient:
         self.access_token = access_token
 
     def request(self, base_url, url, data=None, headers=None):
-        url = '%s%s' % (base_url, url)
+        url = f'{base_url}{url}'
 
         if data is not None:
             data = urlencode(data).encode()
@@ -57,10 +50,10 @@ class YandexMetrikaClient:
         return result, None
 
     def get_oauth_authorize_url(self, state=''):
-        return '%sauthorize' \
+        return '{}authorize' \
                '?response_type=code' \
-               '&state=%s' \
-               '&client_id=%s' % (self.OAUTH_BASE_URL, state, self.CLIENT_ID)
+               '&state={}' \
+               '&client_id={}'.format(self.OAUTH_BASE_URL, state, self.CLIENT_ID)
 
     def oauth_request(self, url, data=None):
         return self.request(self.OAUTH_BASE_URL, url, data)
@@ -86,7 +79,7 @@ class YandexMetrikaClient:
     def api_stat_traffic_summary(self, counter, date1, date2, group=None):
         if group is None:
             group = 'day'
-        return self.api_request('stat/traffic/summary.json?id=%s&date1=%s&date2=%s&group=%s' % (
+        return self.api_request('stat/traffic/summary.json?id={}&date1={}&date2={}&group={}'.format(
             counter,
             date1.strftime('%Y%m%d'),
             date2.strftime('%Y%m%d'),
@@ -99,12 +92,12 @@ class AccessTokenWidget(Widget):
 
     def render(self, name, value, attrs=None):
         if value and len(value) > 0:
-            link = '<a href="%s">%s</a>' % (
+            link = '<a href="{}">{}</a>'.format(
                 reverse('jet-dashboard:yandex-metrika-revoke', kwargs={'pk': self.module.model.pk}),
                 force_str(_('Revoke access'))
             )
         else:
-            link = '<a href="%s">%s</a>' % (
+            link = '<a href="{}">{}</a>'.format(
                 reverse('jet-dashboard:yandex-metrika-grant', kwargs={'pk': self.module.model.pk}),
                 force_str(_('Grant access'))
             )
@@ -112,7 +105,7 @@ class AccessTokenWidget(Widget):
         if value is None:
             value = ''
 
-        return format_html('%s<input type="hidden" name="access_token" value="%s">' % (link, value))
+        return format_html(f'{link}<input type="hidden" name="access_token" value="{value}">')
 
 
 class YandexMetrikaSettingsForm(forms.Form):
@@ -205,7 +198,7 @@ class YandexMetrikaBase(DashboardModule):
 
     def format_grouped_date(self, date, group):
         if group == 'week':
-            date = u'%s — %s' % (
+            date = '{} — {}'.format(
                 (date - datetime.timedelta(days=7)).strftime('%d.%m'),
                 date.strftime('%d.%m')
             )
@@ -256,7 +249,7 @@ class YandexMetrikaVisitorsTotals(YandexMetrikaBase):
 
     def __init__(self, title=None, period=None, **kwargs):
         kwargs.update({'period': period})
-        super(YandexMetrikaVisitorsTotals, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def init_with_context(self, context):
         result = self.api_stat_traffic_summary()
@@ -296,16 +289,16 @@ class YandexMetrikaVisitorsChart(YandexMetrikaBase):
 
     def __init__(self, title=None, period=None, show=None, group=None, **kwargs):
         kwargs.update({'period': period, 'show': show, 'group': group})
-        super(YandexMetrikaVisitorsChart, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def settings_dict(self):
-        settings = super(YandexMetrikaVisitorsChart, self).settings_dict()
+        settings = super().settings_dict()
         settings['show'] = self.show
         settings['group'] = self.group
         return settings
 
     def load_settings(self, settings):
-        super(YandexMetrikaVisitorsChart, self).load_settings(settings)
+        super().load_settings(settings)
         self.show = settings.get('show')
         self.group = settings.get('group')
 
@@ -342,15 +335,15 @@ class YandexMetrikaPeriodVisitors(YandexMetrikaBase):
 
     def __init__(self, title=None, period=None, group=None, **kwargs):
         kwargs.update({'period': period, 'group': group})
-        super(YandexMetrikaPeriodVisitors, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def settings_dict(self):
-        settings = super(YandexMetrikaPeriodVisitors, self).settings_dict()
+        settings = super().settings_dict()
         settings['group'] = self.group
         return settings
 
     def load_settings(self, settings):
-        super(YandexMetrikaPeriodVisitors, self).load_settings(settings)
+        super().load_settings(settings)
         self.group = settings.get('group')
 
     def init_with_context(self, context):
