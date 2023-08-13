@@ -1,23 +1,27 @@
-from __future__ import unicode_literals
 import json
 import os
+from urllib.parse import parse_qsl
+
 from django import template
 from django.urls import reverse
-
-from django.forms import CheckboxInput, ModelChoiceField, Select, ModelMultipleChoiceField, SelectMultiple
+from django.forms import CheckboxInput
+from django.forms import ModelChoiceField
+from django.forms import Select
+from django.forms import ModelMultipleChoiceField
+from django.forms import SelectMultiple
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.utils.formats import get_format
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_str
-from jet import settings, VERSION
-from jet.models import Bookmark
-from jet.utils import get_model_instance_label, get_model_queryset, get_possible_language_codes, \
-    get_admin_site, get_menu_items
 
-try:
-    from urllib.parse import parse_qsl
-except ImportError:
-    from urlparse import parse_qsl
+from jet import settings
+from jet import VERSION
+from jet.models import Bookmark
+from jet.utils import get_model_instance_label
+from jet.utils import get_model_queryset
+from jet.utils import get_possible_language_codes
+from jet.utils import get_admin_site
+from jet.utils import get_menu_items
 
 
 register = template.Library()
@@ -132,9 +136,9 @@ def jet_get_current_version():
 @register.filter
 def jet_append_version(url):
     if '?' in url:
-        return '%s&v=%s' % (url, VERSION)
+        return f'{url}&v={VERSION}'
     else:
-        return '%s?v=%s' % (url, VERSION)
+        return f'{url}?v={VERSION}'
 
 
 @assignment_tag
@@ -181,7 +185,7 @@ def jet_sibling_object(context, next):
     if sibling_object is None:
         return
 
-    url = reverse('%s:%s_%s_change' % (
+    url = reverse('{}:{}_{}_change'.format(
         admin_site.name,
         model._meta.app_label,
         model._meta.model_name

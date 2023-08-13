@@ -38,6 +38,7 @@ class FiltersTestCase(TestCase):
         initial = self.models[1]
         request = self.factory.get('url', {'field__id__exact': initial.pk})
         field, lookup_params, model, model_admin, field_path = self.get_related_field_ajax_list_filter_params()
+        lookup_params = {'field__id__exact': initial.pk}
         list_filter = RelatedFieldAjaxListFilter(field, request, lookup_params, model, model_admin, field_path)
 
         self.assertTrue(list_filter.has_output())

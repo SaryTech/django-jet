@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.urls import reverse
 
 from django.test import TestCase
@@ -11,6 +12,7 @@ class TagsTestCase(TestCase):
         self.models = []
         self.searchable_models = []
 
+        self.user = User.objects.create(username="Test User")
         self.models.append(TestModel.objects.create(field1='first', field2=1))
         self.models.append(TestModel.objects.create(field1='second', field2=2))
         self.searchable_models.append(SearchableTestModel.objects.create(field1='first', field2=1))
@@ -62,15 +64,18 @@ class TagsTestCase(TestCase):
         ordering_field = 1  # field1 in list_display
         preserved_filters = '_changelist_filters=o%%3D%d' % ordering_field
 
-        expected_url = reverse('admin:%s_%s_change' % (
+        expected_url = reverse('admin:{}_{}_change'.format(
             TestModel._meta.app_label,
             TestModel._meta.model_name
         ), args=(self.models[1].pk,)) + '?' + preserved_filters
 
+        request = RequestFactory().get(expected_url)
+        request.user = self.user
+
         context = {
             'original': instance,
             'preserved_filters': preserved_filters,
-            'request': RequestFactory().get(expected_url),
+            'request': request,
         }
 
         actual_url = jet_next_object(context)['url']
@@ -82,15 +87,18 @@ class TagsTestCase(TestCase):
         ordering_field = 1  # field1 in list_display
         preserved_filters = '_changelist_filters=o%%3D%d' % ordering_field
 
-        changelist_url = reverse('admin:%s_%s_change' % (
+        changelist_url = reverse('admin:{}_{}_change'.format(
             TestModel._meta.app_label,
             TestModel._meta.model_name
         ), args=(self.models[1].pk,)) + '?' + preserved_filters
 
+        request = RequestFactory().get(changelist_url)
+        request.user = self.user
+
         context = {
             'original': instance,
             'preserved_filters': preserved_filters,
-            'request': RequestFactory().get(changelist_url),
+            'request': request,
         }
 
         previous_object = jet_previous_object(context)

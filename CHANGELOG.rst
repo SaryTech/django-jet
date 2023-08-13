@@ -3,6 +3,7 @@ Changelog
 unreleased
 -----
 * Drop support for django < 3.2
+* Drip support for python < 3.8
 
 3.0.8
 -----

@@ -87,7 +87,7 @@ class UpdateDashboardModuleView(SuccessMessageMixin, UpdateView):
                 return app
 
     def get_context_data(self, **kwargs):
-        data = super(UpdateDashboardModuleView, self).get_context_data(**kwargs)
+        data = super().get_context_data(**kwargs)
         data['title'] = _('Change')
         data['module'] = self.module
         data['settings_form'] = self.get_settings_form()
@@ -104,7 +104,7 @@ class UpdateDashboardModuleView(SuccessMessageMixin, UpdateView):
 
         self.object = self.get_object()
         self.module = self.get_module()(model=self.object)
-        return super(UpdateDashboardModuleView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         settings_form = self.get_settings_form()
@@ -128,14 +128,14 @@ class UpdateDashboardModuleView(SuccessMessageMixin, UpdateView):
 
         request.POST = data
 
-        return super(UpdateDashboardModuleView, self).post(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         if 'settings' in form.data:
             form.instance.settings = form.data['settings']
         if 'children' in form.data:
             form.instance.children = form.data['children']
-        return super(UpdateDashboardModuleView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 @require_POST

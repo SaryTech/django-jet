@@ -8,7 +8,7 @@ from jet.utils import get_app_list, LazyDateTimeEncoder, context_to_dict
 import datetime
 
 
-class DashboardModule(object):
+class DashboardModule:
     """
     Base dashboard module class. All dashboard modules (widgets) should inherit it.
     """
@@ -241,7 +241,7 @@ class LinkList(DashboardModule):
     def __init__(self, title=None, children=list(), **kwargs):
         children = list(map(self.parse_link, children))
         kwargs.update({'children': children})
-        super(LinkList, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def settings_dict(self):
         return {
@@ -325,11 +325,11 @@ class AppList(DashboardModule):
         for app in app_list:
             app_name = app.get('app_label', app.get('name', ''))
             app['models'] = filter(
-                lambda model: self.models is None or ('%s.%s' % (app_name, model['object_name'])) in self.models or ('%s.*' % app_name) in self.models,
+                lambda model: self.models is None or ('{}.{}'.format(app_name, model['object_name'])) in self.models or ('%s.*' % app_name) in self.models,
                 app['models']
             )
             app['models'] = filter(
-                lambda model: self.exclude is None or (('%s.%s' % (app_name, model['object_name'])) not in self.exclude and ('%s.*' % app_name) not in self.exclude),
+                lambda model: self.exclude is None or (('{}.{}'.format(app_name, model['object_name'])) not in self.exclude and ('%s.*' % app_name) not in self.exclude),
                 app['models']
             )
             app['models'] = list(app['models'])
@@ -398,11 +398,11 @@ class ModelList(DashboardModule):
         for app in app_list:
             app_name = app.get('app_label', app.get('name', ''))
             app['models'] = filter(
-                lambda model: self.models is None or ('%s.%s' % (app_name, model['object_name'])) in self.models or ('%s.*' % app_name) in self.models,
+                lambda model: self.models is None or ('{}.{}'.format(app_name, model['object_name'])) in self.models or ('%s.*' % app_name) in self.models,
                 app['models']
             )
             app['models'] = filter(
-                lambda model: self.exclude is None or (('%s.%s' % (app_name, model['object_name'])) not in self.exclude and ('%s.*' % app_name) not in self.exclude),
+                lambda model: self.exclude is None or (('{}.{}'.format(app_name, model['object_name'])) not in self.exclude and ('%s.*' % app_name) not in self.exclude),
                 app['models']
             )
             app['models'] = list(app['models'])
@@ -463,7 +463,7 @@ class RecentActions(DashboardModule):
 
     def __init__(self, title=None, limit=10, **kwargs):
         kwargs.update({'limit': limit})
-        super(RecentActions, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def settings_dict(self):
         return {
@@ -565,7 +565,7 @@ class Feed(DashboardModule):
 
     def __init__(self, title=None, feed_url=None, limit=None, **kwargs):
         kwargs.update({'feed_url': feed_url, 'limit': limit})
-        super(Feed, self).__init__(title, **kwargs)
+        super().__init__(title, **kwargs)
 
     def settings_dict(self):
         return {
