@@ -235,4 +235,3 @@ Same as **JET_INDEX_DASHBOARD**, but for application pages
 .. code:: python
 
     JET_APP_INDEX_DASHBOARD = 'jet.dashboard.dashboard.DefaultAppIndexDashboard'
-

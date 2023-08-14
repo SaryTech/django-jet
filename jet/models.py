@@ -30,4 +30,3 @@ class PinnedApplication(models.Model):
 
     def __str__(self):
         return self.app_label
-

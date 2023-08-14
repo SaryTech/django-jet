@@ -1,6 +1,6 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
-exclude: 'extra_static'
+exclude: 'jet/static/'
 repos:
   - repo: https://github.com/adamchainz/django-upgrade
     rev: "1.14.0"
@@ -13,3 +13,14 @@ repos:
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args:
+          - --markdown-linebreak-ext=md
+      - id: mixed-line-ending
+      - id: check-yaml
+      - id: check-toml
