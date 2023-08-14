@@ -5,7 +5,7 @@ from jet.utils import get_app_list
 
 
 class Command(BaseCommand):
-    help = 'Generates example of JET custom apps setting'
+    help = "Generates example of JET custom apps setting"
     item_order = 0
 
     def handle(self, *args, **options):
@@ -28,20 +28,17 @@ class Command(BaseCommand):
         class Request:
             user = User()
 
-        app_list = get_app_list({
-            'request': Request(),
-            'user': None
-        })
+        app_list = get_app_list({"request": Request(), "user": None})
 
-        self.stdout.write('# Add this to your settings.py to customize applications and models list')
-        self.stdout.write('JET_SIDE_MENU_CUSTOM_APPS = [')
+        self.stdout.write("# Add this to your settings.py to customize applications and models list")
+        self.stdout.write("JET_SIDE_MENU_CUSTOM_APPS = [")
 
         for app in app_list:
-            app_label = app.get('app_label', app.get('name'))
+            app_label = app.get("app_label", app.get("name"))
 
-            self.stdout.write('    (\'%s\', [' % app_label)
-            for model in app['models']:
-                self.stdout.write('        \'%s\',' % model['object_name'])
-            self.stdout.write('    ]),')
+            self.stdout.write("    ('%s', [" % app_label)
+            for model in app["models"]:
+                self.stdout.write("        '%s'," % model["object_name"])
+            self.stdout.write("    ]),")
 
-        self.stdout.write(']')
+        self.stdout.write("]")

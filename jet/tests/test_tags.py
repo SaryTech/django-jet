@@ -7,16 +7,17 @@ from jet.templatetags.jet_tags import jet_select2_lookups, jet_next_object, jet_
 from jet.tests.models import TestModel, SearchableTestModel
 from django.test.client import RequestFactory
 
+
 class TagsTestCase(TestCase):
     def setUp(self):
         self.models = []
         self.searchable_models = []
 
         self.user = User.objects.create(username="Test User")
-        self.models.append(TestModel.objects.create(field1='first', field2=1))
-        self.models.append(TestModel.objects.create(field1='second', field2=2))
-        self.searchable_models.append(SearchableTestModel.objects.create(field1='first', field2=1))
-        self.searchable_models.append(SearchableTestModel.objects.create(field1='second', field2=2))
+        self.models.append(TestModel.objects.create(field1="first", field2=1))
+        self.models.append(TestModel.objects.create(field1="second", field2=2))
+        self.searchable_models.append(SearchableTestModel.objects.create(field1="first", field2=1))
+        self.searchable_models.append(SearchableTestModel.objects.create(field1="second", field2=2))
 
     def test_select2_lookups(self):
         class TestForm(forms.Form):
@@ -24,8 +25,8 @@ class TagsTestCase(TestCase):
 
         value = self.searchable_models[0]
 
-        form = TestForm(initial={'form_field': value.pk})
-        field = form['form_field']
+        form = TestForm(initial={"form_field": value.pk})
+        field = form["form_field"]
         field = jet_select2_lookups(field)
         choices = [choice for choice in field.field.choices]
 
@@ -38,8 +39,8 @@ class TagsTestCase(TestCase):
 
         value = self.searchable_models[0]
 
-        form = TestForm(data={'form_field': value.pk})
-        field = form['form_field']
+        form = TestForm(data={"form_field": value.pk})
+        field = form["form_field"]
         field = jet_select2_lookups(field)
         choices = [choice for choice in field.field.choices]
 
@@ -52,8 +53,8 @@ class TagsTestCase(TestCase):
 
         value = self.searchable_models[0]
 
-        form = TestForm(initial={'form_field': value.pk})
-        field = form['form_field']
+        form = TestForm(initial={"form_field": value.pk})
+        field = form["form_field"]
         field = jet_select2_lookups(field)
         choices = [choice for choice in field.field.choices]
 
@@ -62,43 +63,51 @@ class TagsTestCase(TestCase):
     def test_jet_sibling_object_next_url(self):
         instance = self.models[0]
         ordering_field = 1  # field1 in list_display
-        preserved_filters = '_changelist_filters=o%%3D%d' % ordering_field
+        preserved_filters = "_changelist_filters=o%%3D%d" % ordering_field
 
-        expected_url = reverse('admin:{}_{}_change'.format(
-            TestModel._meta.app_label,
-            TestModel._meta.model_name
-        ), args=(self.models[1].pk,)) + '?' + preserved_filters
+        expected_url = (
+            reverse(
+                f"admin:{TestModel._meta.app_label}_{TestModel._meta.model_name}_change",
+                args=(self.models[1].pk,),
+            )
+            + "?"
+            + preserved_filters
+        )
 
         request = RequestFactory().get(expected_url)
         request.user = self.user
 
         context = {
-            'original': instance,
-            'preserved_filters': preserved_filters,
-            'request': request,
+            "original": instance,
+            "preserved_filters": preserved_filters,
+            "request": request,
         }
 
-        actual_url = jet_next_object(context)['url']
+        actual_url = jet_next_object(context)["url"]
 
         self.assertEqual(actual_url, expected_url)
 
     def test_jet_sibling_object_previous_url(self):
         instance = self.models[0]
         ordering_field = 1  # field1 in list_display
-        preserved_filters = '_changelist_filters=o%%3D%d' % ordering_field
+        preserved_filters = "_changelist_filters=o%%3D%d" % ordering_field
 
-        changelist_url = reverse('admin:{}_{}_change'.format(
-            TestModel._meta.app_label,
-            TestModel._meta.model_name
-        ), args=(self.models[1].pk,)) + '?' + preserved_filters
+        changelist_url = (
+            reverse(
+                f"admin:{TestModel._meta.app_label}_{TestModel._meta.model_name}_change",
+                args=(self.models[1].pk,),
+            )
+            + "?"
+            + preserved_filters
+        )
 
         request = RequestFactory().get(changelist_url)
         request.user = self.user
 
         context = {
-            'original': instance,
-            'preserved_filters': preserved_filters,
-            'request': request,
+            "original": instance,
+            "preserved_filters": preserved_filters,
+            "request": request,
         }
 
         previous_object = jet_previous_object(context)

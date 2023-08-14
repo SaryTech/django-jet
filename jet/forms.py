@@ -20,14 +20,14 @@ class AddBookmarkForm(forms.ModelForm):
 
     class Meta:
         model = Bookmark
-        fields = ['url', 'title']
+        fields = ["url", "title"]
 
     def clean(self):
         data = super().clean()
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
-            raise ValidationError('error')
-        if not self.request.user.has_perm('jet.change_bookmark'):
-            raise ValidationError('error')
+            raise ValidationError("error")
+        if not self.request.user.has_perm("jet.change_bookmark"):
+            raise ValidationError("error")
         return data
 
     def save(self, commit=True):
@@ -47,9 +47,9 @@ class RemoveBookmarkForm(forms.ModelForm):
     def clean(self):
         data = super().clean()
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
-            raise ValidationError('error')
+            raise ValidationError("error")
         if self.instance.user != self.request.user.pk:
-            raise ValidationError('error')
+            raise ValidationError("error")
         return data
 
     def save(self, commit=True):
@@ -64,28 +64,24 @@ class ToggleApplicationPinForm(forms.ModelForm):
 
     class Meta:
         model = PinnedApplication
-        fields = ['app_label']
+        fields = ["app_label"]
 
     def clean(self):
         data = super().clean()
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
-            raise ValidationError('error')
+            raise ValidationError("error")
         return data
 
     def save(self, commit=True):
         if commit:
             try:
                 pinned_app = PinnedApplication.objects.get(
-                    app_label=self.cleaned_data['app_label'],
-                    user=self.request.user.pk
+                    app_label=self.cleaned_data["app_label"], user=self.request.user.pk
                 )
                 pinned_app.delete()
                 return False
             except PinnedApplication.DoesNotExist:
-                PinnedApplication.objects.create(
-                    app_label=self.cleaned_data['app_label'],
-                    user=self.request.user.pk
-                )
+                PinnedApplication.objects.create(app_label=self.cleaned_data["app_label"], user=self.request.user.pk)
                 return True
 
 
@@ -106,42 +102,44 @@ class ModelLookupForm(forms.Form):
         data = super().clean()
 
         if not user_is_authenticated(self.request.user) or not self.request.user.is_staff:
-            raise ValidationError('error')
+            raise ValidationError("error")
 
         try:
-            self.model_cls = apps.get_model(data['app_label'], data['model'])
+            self.model_cls = apps.get_model(data["app_label"], data["model"])
         except:
-            raise ValidationError('error')
+            raise ValidationError("error")
 
         content_type = ContentType.objects.get_for_model(self.model_cls)
-        permission = Permission.objects.filter(content_type=content_type, codename__startswith='change_').first()
+        permission = Permission.objects.filter(content_type=content_type, codename__startswith="change_").first()
 
-        if not self.request.user.has_perm('{}.{}'.format(data['app_label'], permission.codename)):
-            raise ValidationError('error')
+        if not self.request.user.has_perm("{}.{}".format(data["app_label"], permission.codename)):
+            raise ValidationError("error")
 
         return data
 
     def lookup(self):
         qs = self.model_cls.objects
 
-        if self.cleaned_data['q']:
-            if getattr(self.model_cls, 'autocomplete_search_fields', None):
+        if self.cleaned_data["q"]:
+            if getattr(self.model_cls, "autocomplete_search_fields", None):
                 search_fields = self.model_cls.autocomplete_search_fields()
-                filter_data = [Q((field + '__icontains', self.cleaned_data['q'])) for field in search_fields]
+                filter_data = [Q((field + "__icontains", self.cleaned_data["q"])) for field in search_fields]
                 # if self.cleaned_data['object_id']:
                 #     filter_data.append(Q(pk=self.cleaned_data['object_id']))
                 qs = qs.filter(reduce(operator.or_, filter_data)).distinct()
             else:
                 qs = qs.none()
 
-        limit = self.cleaned_data['page_size'] or 100
-        page = self.cleaned_data['page'] or 1
+        limit = self.cleaned_data["page_size"] or 100
+        page = self.cleaned_data["page"] or 1
         offset = (page - 1) * limit
 
-        items = list(map(
-            lambda instance: {'id': instance.pk, 'text': get_model_instance_label(instance)},
-            qs.all()[offset:offset + limit]
-        ))
+        items = list(
+            map(
+                lambda instance: {"id": instance.pk, "text": get_model_instance_label(instance)},
+                qs.all()[offset : offset + limit],
+            )
+        )
         total = qs.count()
 
         return items, total
