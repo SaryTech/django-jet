@@ -68,4 +68,3 @@ Sidemenu
     :alt: Screenshot #3
     :align: center
     :target: https://raw.githubusercontent.com/geex-arts/jet/static/screen3.png
-

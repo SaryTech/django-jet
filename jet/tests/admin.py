@@ -10,4 +10,3 @@ class TestModelAdmin(admin.ModelAdmin):
 @admin.register(RelatedToTestModel)
 class RelatedToTestModelAdmin(admin.ModelAdmin):
     pass
-

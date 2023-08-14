@@ -315,7 +315,3 @@ unreleased
 -----
 
 * Initial release
-
-
-
-
