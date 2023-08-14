@@ -1,2 +1,14 @@
 [tool.black]
 line-length = 120
+
+[tool.ruff]
+extend-select = ["I"]
+line-length = 120
+target-version = "py310"
+ignore = ["E722"]
+
+[tool.ruff.isort]
+combine-as-imports = true
+lines-after-imports = 2
+force-single-line = true
+split-on-trailing-comma = true

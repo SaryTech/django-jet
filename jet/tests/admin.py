@@ -1,5 +1,7 @@
 from django.contrib import admin
-from jet.tests.models import TestModel, RelatedToTestModel
+
+from jet.tests.models import RelatedToTestModel
+from jet.tests.models import TestModel
 
 
 @admin.register(TestModel)

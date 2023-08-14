@@ -1,9 +1,10 @@
-import django
 from django.urls import path
-
 from django.views.i18n import JavaScriptCatalog
 
-from jet.views import add_bookmark_view, remove_bookmark_view, toggle_application_pin_view, model_lookup_view
+from jet.views import add_bookmark_view
+from jet.views import model_lookup_view
+from jet.views import remove_bookmark_view
+from jet.views import toggle_application_pin_view
 
 
 app_name = "jet"

@@ -1,16 +1,16 @@
-from django.urls import path
-from django.urls import re_path
-from django.urls import reverse
-
 from django.contrib import messages
-from django.shortcuts import redirect
-from httplib2 import ServerNotFoundError
-from jet.dashboard.dashboard_modules.google_analytics import GoogleAnalyticsClient, ModuleCredentialStorage
-from jet.dashboard.models import UserDashboardModule
-from jet.dashboard import dashboard
 from django.http import HttpResponse
-from oauth2client.client import FlowExchangeError
+from django.shortcuts import redirect
+from django.urls import path
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from httplib2 import ServerNotFoundError
+from oauth2client.client import FlowExchangeError
+
+from jet.dashboard import dashboard
+from jet.dashboard.dashboard_modules.google_analytics import GoogleAnalyticsClient
+from jet.dashboard.dashboard_modules.google_analytics import ModuleCredentialStorage
+from jet.dashboard.models import UserDashboardModule
 
 
 def google_analytics_grant_view(request, pk):

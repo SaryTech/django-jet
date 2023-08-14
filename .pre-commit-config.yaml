@@ -29,3 +29,11 @@ repos:
     rev: 23.7.0
     hooks:
       - id: black
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.282
+    hooks:
+      - id: ruff
+        args:
+          - --fixable=I
+          - --fix
