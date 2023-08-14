@@ -1,27 +1,29 @@
 import datetime
 import json
-from django.template import Context
-from django.utils import translation
-from jet import settings
-from jet.models import PinnedApplication
-import django
+from collections import OrderedDict
 
+import django
 from django.apps import apps
+from django.contrib import admin
+from django.contrib import messages
+from django.contrib.admin import AdminSite
+from django.contrib.admin.options import IncorrectLookupParameters
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
-from django.urls import reverse, resolve, NoReverseMatch
-
-from django.contrib.admin import AdminSite
-from django.utils.encoding import smart_str
-from django.utils.text import capfirst
-from django.contrib import messages
+from django.template import Context
+from django.urls import NoReverseMatch
+from django.urls import resolve
+from django.urls import reverse
+from django.utils import translation
 from django.utils.encoding import force_str
+from django.utils.encoding import smart_str
 from django.utils.functional import Promise
-from django.contrib.admin.options import IncorrectLookupParameters
-from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
+from django.utils.text import capfirst
 from django.utils.text import slugify
-from collections import OrderedDict
+from django.utils.translation import gettext_lazy as _
+
+from jet import settings
+from jet.models import PinnedApplication
 
 
 class JsonResponse(HttpResponse):

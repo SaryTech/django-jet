@@ -1,11 +1,14 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.test import TestCase
+from django.test.client import RequestFactory
 from django.urls import reverse
 
-from django.test import TestCase
-from jet.templatetags.jet_tags import jet_select2_lookups, jet_next_object, jet_previous_object
-from jet.tests.models import TestModel, SearchableTestModel
-from django.test.client import RequestFactory
+from jet.templatetags.jet_tags import jet_next_object
+from jet.templatetags.jet_tags import jet_previous_object
+from jet.templatetags.jet_tags import jet_select2_lookups
+from jet.tests.models import SearchableTestModel
+from jet.tests.models import TestModel
 
 
 class TagsTestCase(TestCase):

@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from django.core.management import CommandError
 
-from jet.utils import get_app_list, get_original_menu_items
+from jet.utils import get_original_menu_items
 
 
 class Command(BaseCommand):

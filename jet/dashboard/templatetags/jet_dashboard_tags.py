@@ -1,5 +1,7 @@
 from django import template
+
 from jet.dashboard.utils import get_current_dashboard
+
 
 register = template.Library()
 assignment_tag = register.assignment_tag if hasattr(register, "assignment_tag") else register.simple_tag
