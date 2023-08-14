@@ -5,8 +5,8 @@ from django.urls import path, include
 admin.autodiscover()
 
 urlpatterns = [
-        path('jet/', include('jet.urls', 'jet')),
-        path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
-        path('admin/doc/', include('django.contrib.admindocs.urls')),
-        path('admin/', admin.site.urls),
-    ]
+    path("jet/", include("jet.urls", "jet")),
+    path("jet/dashboard/", include("jet.dashboard.urls", "jet-dashboard")),
+    path("admin/doc/", include("django.contrib.admindocs.urls")),
+    path("admin/", admin.site.urls),
+]

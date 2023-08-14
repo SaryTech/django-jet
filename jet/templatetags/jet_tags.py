@@ -25,22 +25,22 @@ from jet.utils import get_menu_items
 
 
 register = template.Library()
-assignment_tag = register.assignment_tag if hasattr(register, 'assignment_tag') else register.simple_tag
+assignment_tag = register.assignment_tag if hasattr(register, "assignment_tag") else register.simple_tag
 
 
 @assignment_tag
 def jet_get_date_format():
-    return get_format('DATE_INPUT_FORMATS')[0]
+    return get_format("DATE_INPUT_FORMATS")[0]
 
 
 @assignment_tag
 def jet_get_time_format():
-    return get_format('TIME_INPUT_FORMATS')[0]
+    return get_format("TIME_INPUT_FORMATS")[0]
 
 
 @assignment_tag
 def jet_get_datetime_format():
-    return get_format('DATETIME_INPUT_FORMATS')[0]
+    return get_format("DATETIME_INPUT_FORMATS")[0]
 
 
 @assignment_tag(takes_context=True)
@@ -62,31 +62,34 @@ def jet_is_checkbox(field):
 
 @register.filter
 def jet_select2_lookups(field):
-    if hasattr(field, 'field') and \
-            (isinstance(field.field, ModelChoiceField) or isinstance(field.field, ModelMultipleChoiceField)):
+    if hasattr(field, "field") and (
+        isinstance(field.field, ModelChoiceField) or isinstance(field.field, ModelMultipleChoiceField)
+    ):
         qs = field.field.queryset
         model = qs.model
 
-        if getattr(model, 'autocomplete_search_fields', None) and getattr(field.field, 'autocomplete', True):
+        if getattr(model, "autocomplete_search_fields", None) and getattr(field.field, "autocomplete", True):
             choices = []
             app_label = model._meta.app_label
             model_name = model._meta.object_name
 
             attrs = {
-                'class': 'ajax',
-                'data-app-label': app_label,
-                'data-model': model_name,
-                'data-ajax--url': reverse('jet:model_lookup')
+                "class": "ajax",
+                "data-app-label": app_label,
+                "data-model": model_name,
+                "data-ajax--url": reverse("jet:model_lookup"),
             }
 
             initial_value = field.value()
 
-            if hasattr(field, 'field') and isinstance(field.field, ModelMultipleChoiceField):
+            if hasattr(field, "field") and isinstance(field.field, ModelMultipleChoiceField):
                 if initial_value:
                     initial_objects = model.objects.filter(pk__in=initial_value)
                     choices.extend(
-                        [(initial_object.pk, get_model_instance_label(initial_object))
-                            for initial_object in initial_objects]
+                        [
+                            (initial_object.pk, get_model_instance_label(initial_object))
+                            for initial_object in initial_objects
+                        ]
                     )
 
                 if isinstance(field.field.widget, RelatedFieldWidgetWrapper):
@@ -94,11 +97,11 @@ def jet_select2_lookups(field):
                 else:
                     field.field.widget = SelectMultiple(attrs)
                 field.field.choices = choices
-            elif hasattr(field, 'field') and isinstance(field.field, ModelChoiceField):
+            elif hasattr(field, "field") and isinstance(field.field, ModelChoiceField):
                 if initial_value:
                     try:
                         initial_object = model.objects.get(pk=initial_value)
-                        attrs['data-object-id'] = initial_value
+                        attrs["data-object-id"] = initial_value
                         choices.append((initial_object.pk, get_model_instance_label(initial_object)))
                     except model.DoesNotExist:
                         pass
@@ -114,11 +117,11 @@ def jet_select2_lookups(field):
 
 @assignment_tag(takes_context=True)
 def jet_get_current_theme(context):
-    if 'request' in context and 'JET_THEME' in context['request'].COOKIES:
-        theme = context['request'].COOKIES['JET_THEME']
+    if "request" in context and "JET_THEME" in context["request"].COOKIES:
+        theme = context["request"].COOKIES["JET_THEME"]
         if isinstance(settings.JET_THEMES, list) and len(settings.JET_THEMES) > 0:
             for conf_theme in settings.JET_THEMES:
-                if isinstance(conf_theme, dict) and conf_theme.get('theme') == theme:
+                if isinstance(conf_theme, dict) and conf_theme.get("theme") == theme:
                     return theme
     return settings.JET_DEFAULT_THEME
 
@@ -135,10 +138,10 @@ def jet_get_current_version():
 
 @register.filter
 def jet_append_version(url):
-    if '?' in url:
-        return f'{url}&v={VERSION}'
+    if "?" in url:
+        return f"{url}&v={VERSION}"
     else:
-        return f'{url}?v={VERSION}'
+        return f"{url}?v={VERSION}"
 
 
 @assignment_tag
@@ -152,27 +155,27 @@ def jet_change_form_sibling_links_enabled():
 
 
 def jet_sibling_object(context, next):
-    original = context.get('original')
+    original = context.get("original")
 
     if not original:
         return
 
     model = type(original)
-    preserved_filters_plain = context.get('preserved_filters', '')
+    preserved_filters_plain = context.get("preserved_filters", "")
     preserved_filters = dict(parse_qsl(preserved_filters_plain))
     admin_site = get_admin_site(context)
 
     if admin_site is None:
         return
 
-    request = context.get('request')
+    request = context.get("request")
     queryset = get_model_queryset(admin_site, model, request, preserved_filters=preserved_filters)
 
     if queryset is None:
         return
 
     sibling_object = None
-    object_pks = list(queryset.values_list('pk', flat=True))
+    object_pks = list(queryset.values_list("pk", flat=True))
 
     try:
         index = object_pks.index(original.pk)
@@ -185,19 +188,15 @@ def jet_sibling_object(context, next):
     if sibling_object is None:
         return
 
-    url = reverse('{}:{}_{}_change'.format(
-        admin_site.name,
-        model._meta.app_label,
-        model._meta.model_name
-    ), args=(sibling_object.pk,))
+    url = reverse(
+        f"{admin_site.name}:{model._meta.app_label}_{model._meta.model_name}_change",
+        args=(sibling_object.pk,),
+    )
 
-    if preserved_filters_plain != '':
-        url += '?' + preserved_filters_plain
+    if preserved_filters_plain != "":
+        url += "?" + preserved_filters_plain
 
-    return {
-        'label': str(sibling_object),
-        'url': url
-    }
+    return {"label": str(sibling_object), "url": url}
 
 
 @assignment_tag(takes_context=True)
@@ -212,21 +211,23 @@ def jet_next_object(context):
 
 @assignment_tag(takes_context=True)
 def jet_popup_response_data(context):
-    if context.get('popup_response_data'):
-        return context['popup_response_data']
+    if context.get("popup_response_data"):
+        return context["popup_response_data"]
 
-    return json.dumps({
-        'action': context.get('action'),
-        'value': context.get('value') or context.get('pk_value'),
-        'obj': smart_str(context.get('obj')),
-        'new_value': context.get('new_value')
-    })
+    return json.dumps(
+        {
+            "action": context.get("action"),
+            "value": context.get("value") or context.get("pk_value"),
+            "obj": smart_str(context.get("obj")),
+            "new_value": context.get("new_value"),
+        }
+    )
 
 
 @assignment_tag(takes_context=True)
 def jet_delete_confirmation_context(context):
-    if context.get('deletable_objects') is None and context.get('deleted_objects') is None:
-        return ''
+    if context.get("deletable_objects") is None and context.get("deleted_objects") is None:
+        return ""
     return mark_safe('<div class="delete-confirmation-marker"></div>')
 
 
@@ -236,16 +237,16 @@ def jet_static_translation_urls():
 
     urls = []
     url_templates = [
-        'jet/js/i18n/jquery-ui/datepicker-__LANGUAGE_CODE__.js',
-        'jet/js/i18n/jquery-ui-timepicker/jquery.ui.timepicker-__LANGUAGE_CODE__.js',
-        'jet/js/i18n/select2/__LANGUAGE_CODE__.js'
+        "jet/js/i18n/jquery-ui/datepicker-__LANGUAGE_CODE__.js",
+        "jet/js/i18n/jquery-ui-timepicker/jquery.ui.timepicker-__LANGUAGE_CODE__.js",
+        "jet/js/i18n/select2/__LANGUAGE_CODE__.js",
     ]
 
-    static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static')
+    static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
 
     for tpl in url_templates:
         for language_code in language_codes:
-            url = tpl.replace('__LANGUAGE_CODE__', language_code)
+            url = tpl.replace("__LANGUAGE_CODE__", language_code)
             path = os.path.join(static_dir, url)
 
             if os.path.exists(path):
