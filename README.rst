@@ -10,7 +10,7 @@
    :alt: Test Coverage
 
 ==============
-Django JET 3.0.2
+Django JET 3.1.0
 ==============
 This repo was forked from IntrospectData/django-jet.
 It was updated to remove deprecation notices for future Django versions.

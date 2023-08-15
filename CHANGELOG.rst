@@ -1,9 +1,10 @@
 Changelog
 =========
-unreleased
+3.1.0
 -----
 * Drop support for django < 3.2
 * Drip support for python < 3.8
+* Using ruff and black to lint the code
 
 3.0.8
 -----
